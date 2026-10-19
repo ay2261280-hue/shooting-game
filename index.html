@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Defaulter Shooting Game</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: #111;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    h1 {
+        padding: 18px;
+        background: linear-gradient(90deg, #ff0000, #ff6600);
+        font-size: 28px;
+        letter-spacing: 2px;
+    }
+
+    #game {
+        position: relative;
+        width: 100vw;
+        height: calc(100vh - 75px);
+        background: linear-gradient(#182848, #4b6cb7);
+        overflow: hidden;
+        cursor: crosshair;
+    }
+
+    #score {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        font-size: 22px;
+        font-weight: bold;
+        background: rgba(0,0,0,0.5);
+        padding: 10px 15px;
+        border-radius: 10px;
+        z-index: 5;
+    }
+
+    #target {
+        position: absolute;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        background:
+            radial-gradient(circle,
+            white 0 12%,
+            red 13% 30%,
+            white 31% 48%,
+            red 49% 70%,
+            white 71% 100%);
+        box-shadow: 0 0 20px red;
+        cursor: crosshair;
+    }
+
+    #message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+        background: rgba(0,0,0,0.75);
+        padding: 20px;
+        border-radius: 15px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>WELCOME IN THE DEFAULTER WEBSITE</h1>
+
+<div id="game">
+
+    <div id="score">
+        Score: <span id="points">0</span>
+    </div>
+
+    <div id="target"></div>
+
+    <div id="message">
+        🎯 Tap the target to shoot!
+    </div>
+
+</div>
+
+<script>
+    const target = document.getElementById("target");
+    const points = document.getElementById("points");
+    const message = document.getElementById("message");
+    const game = document.getElementById("game");
+
+    let score = 0;
+
+    function moveTarget() {
+        const maxX = game.clientWidth - target.offsetWidth;
+        const maxY = game.clientHeight - target.offsetHeight;
+
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
+
+        target.style.left = x + "px";
+        target.style.top = y + "px";
+    }
+
+    target.addEventListener("click", function(event) {
+        event.stopPropagation();
+
+        score++;
+        points.textContent = score;
+
+        message.style.display = "none";
+
+        moveTarget();
+    });
+
+    game.addEventListener("click", function() {
+        score = Math.max(0, score - 1);
+        points.textContent = score;
+    });
+
+    moveTarget();
+</script>
+
+</body>
+</html>
